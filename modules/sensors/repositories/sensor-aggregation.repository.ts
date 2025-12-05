@@ -8,9 +8,14 @@ import {
 
 
 export class SensorAggregationRepository implements ISensorAggregationRepository {
+  protected table = "sensor_data";
   // latest value
   async getLatestReading(sensorId: number): Promise<LatestReadingDTO | null> {
-    
+   const row = await knex<LatestReadingDTO>(this.table)
+        .where({ sensor_id: sensorId })
+        .orderBy("ts", "desc")
+        .first();
+  return row ?? null;
   }
 
   // raw timeseries 
@@ -20,7 +25,12 @@ export class SensorAggregationRepository implements ISensorAggregationRepository
     to: string,
     order?: "asc" | "desc"
   ): Promise<TimeseriesPointDTO[]> {
-
+    let query = knex<TimeSeriesPointDTO>(this.table)
+    .where({ sensor_id: sensorId })
+    .andWhere("ts", ">=", from)
+    .andWhere("ts", "<=", to)
+    .orderBy("ts", order);
+    return query;
   }
   
   // aggregates
