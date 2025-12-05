@@ -1,26 +1,35 @@
+import { knex } from "../../src/db/knex";
+import { ISensorAggregationRepository } from ".sensor-aggregation.repository.interface";
 import {
   LatestReadingDTO,
   TimeSeriesPointDTO,
   AggregatedPointDTO
 } from "../dtos";
 
-export interface ISensorAggregationRepository {
+
+export class SensorAggregationRepository implements ISensorAggregationRepository {
   // latest value
-  getLatestReading(sensorId: number): Promise<LatestReadingDTO | null>;
+  async getLatestReading(sensorId: number): Promise<LatestReadingDTO | null> {
+    
+  }
 
   // raw timeseries 
-  getTimeSeries(
+  async getTimeSeries(
     sensorId: number,
     from: string,
     to: string,
     order?: "asc" | "desc"
-  ): Promise<TimeseriesPointDTO[]>;
+  ): Promise<TimeseriesPointDTO[]> {
+
+  }
   
   // aggregates
-  getAggregated(
+  async getAggregated(
     sensorId: number,
     resolution: string, // "1h" | "1d" etc.
     from: string,
     to: string
-  ): Promise<AggregatedPointDTO[]>;
+  ): Promise<AggregatedPointDTO[]> {
+
+  }
 }
