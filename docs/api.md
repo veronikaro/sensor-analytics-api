@@ -32,7 +32,7 @@ Returns metadata for all sensors
     {
       "id": 1,
       "deviceId": "pi_001",
-      "name": "Outdoor Temperature",
+      "sensorName": "Outdoor Temperature",
       "type": "temperature",
       "unit": "°C"
     },
@@ -49,7 +49,7 @@ Returns metadata for a single sensor.
   {
     "id": 1,
     "deviceId": "pi_001",
-    "name": "Outdoor Temperature",
+    "sensorName": "Outdoor Temperature",
     "type": "temperature",
     "unit": "°C"
   }
@@ -67,7 +67,7 @@ Return the latest value for a sensor.
 ```json
   {
     "sensorId": 1,
-    "name": "Outdoor Temperature",
+    "sensorName": "Outdoor Temperature",
     "type": "temperature",
     "unit": "°C",
     "latestValue": 22.5,
@@ -87,8 +87,38 @@ Return the latest value for a sensor.
 | `to` | ISO String | yes | end timestamp |
 | `order` | String ("asc" or "desc") | no; by default "asc" | sorting order |
 
+
+**Response 200**
+
+```json
+  {
+    "sensorId": 1,
+    "sensorName": "Outdoor Temperature",
+    "type": "temperature",
+    "unit": "°C",
+    "data": [{"timestamp": "2025-12-01T12:00:00Z", "value": 22.4}, ...]
+  }
+```
+
+
 ## Aggregated Metrics
+Data optimised for displaying in charts.
 ### GET /sensors/{sensorId}/aggregates
+
+**Response 200**
+
+```json
+  {
+    "sensorId": 1,
+    "sensorName": "Outdoor Temperature",
+    "type": "temperature",
+    "unit": "°C",
+    "resolution": "hourly",
+    "from": "",
+    "to": "",
+    "data": [{"timestamp": "2025-12-01T12:00:00Z", "value": 22.4}, ...]
+  }
+```
 
 
 # Authentication
