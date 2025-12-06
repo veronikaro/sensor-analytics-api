@@ -33,13 +33,28 @@ export class SensorAggregationRepository implements ISensorAggregationRepository
     return query;
   }
   
-  // aggregates
+  // aggregates average value over specified time intervals (hourly, daily etc)
   async getAggregated(
     sensorId: number,
-    resolution: string, // "1h" | "1d" etc.
+    resolution: string, // "hour" | "day" etc.
     from: string,
     to: string
   ): Promise<AggregatedPointDTO[]> {
-
+  // TODO: custom query
+    //
+    query = `
+      SELECT 
+        date_truncate({resolution}, ts) AS time_interval,
+        AVG(value)::float AS value
+      FROM :table
+      WHERE sensor_id = :id
+      AND ts >= :from
+      AND ts <= :to
+      GROUP BY 
+        time_interval
+      ORDER BY 
+        time_interval;
+      `
+    const { rows } = await knex<AgregatedPointDTO[]>(this.table).raw(query, {table: this.table, id: sensorId, from, to});
   }
 }
